@@ -1,9 +1,9 @@
 
 extern crate bitcoin;
-extern crate ocean;
+extern crate rust_ocean;
 
 fn do_test(data: &[u8]) {
-    let tx_result: Result<ocean::Transaction, _> = bitcoin::consensus::deserialize(data);
+    let tx_result: Result<rust_ocean::Transaction, _> = bitcoin::consensus::deserialize(data);
     match tx_result {
         Err(_) => {},
         Ok(mut tx) => {
@@ -12,10 +12,10 @@ fn do_test(data: &[u8]) {
             let len = reser.len();
             let calculated_weight = tx.get_weight();
             for input in &mut tx.input {
-                input.witness = ocean::TxInWitness::default();
+                input.witness = rust_ocean::TxInWitness::default();
             }
             for output in &mut tx.output {
-                output.witness = ocean::TxOutWitness::default();
+                output.witness = rust_ocean::TxOutWitness::default();
             }
             assert_eq!(tx.has_witness(), false);
             let no_witness_len = bitcoin::consensus::serialize(&tx).len();

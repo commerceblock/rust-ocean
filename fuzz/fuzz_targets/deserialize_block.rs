@@ -1,9 +1,9 @@
 
 extern crate bitcoin;
-extern crate ocean;
+extern crate rust_ocean;
 
 fn do_test(data: &[u8]) {
-    let block_result: Result<ocean::Block, _> = bitcoin::consensus::deserialize(data);
+    let block_result: Result<rust_ocean::Block, _> = bitcoin::consensus::deserialize(data);
     match block_result {
         Err(_) => {},
         Ok(block) => {

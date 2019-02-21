@@ -14,7 +14,7 @@ honggfuzz_fuzz = ["honggfuzz"]
 [dependencies]
 honggfuzz = { version = "0.5", optional = true }
 afl = { version = "0.3", optional = true }
-ocean = { path = "..", features = ["fuzztarget", "serde-feature"] }
+rust-ocean = { path = "..", features = ["fuzztarget", "serde-feature"] }
 
 [dependencies.bitcoin]
 version = "0.15"

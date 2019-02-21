@@ -14,8 +14,8 @@
 
 //! # Rust Ocean Library
 //!
-//! Extensions to `rust-bitcoin` to support deserialization and serialization
-//! of Ocean transactions and blocks.
+//! Extensions to `rust-bitcoin` and `rust-elements` to support deserialization
+//! and serialization of Ocean transactions and blocks.
 //!
 
 // Coding conventions
