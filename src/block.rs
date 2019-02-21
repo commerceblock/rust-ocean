@@ -1,4 +1,4 @@
-// Rust Elements Library
+// Rust Ocean Library
 // Written in 2018 by
 //   Andrew Poelstra <apoelstra@blockstream.com>
 //
@@ -32,7 +32,7 @@ pub struct Proof {
 serde_struct_impl!(Proof, challenge, solution);
 impl_consensus_encoding!(Proof, challenge, solution);
 
-/// Elements block header
+/// Ocean block header
 #[derive(Clone, Debug, Default, Eq, Hash, PartialEq)]
 pub struct BlockHeader {
     /// Version - should be 0x20000000 except when versionbits signalling
@@ -99,7 +99,7 @@ impl BitcoinHash for BlockHeader {
     }
 }
 
-/// Elements block
+/// Ocean block
 #[derive(Clone, Debug, Default, Eq, Hash, PartialEq)]
 pub struct Block {
     /// Header of the block

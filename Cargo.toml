@@ -1,12 +1,12 @@
 [package]
-name = "elements"
-version = "0.4.0"
+name = "ocean"
+version = "0.5.0"
 authors = ["Andrew Poelstra <apoelstra@blockstream.com>"]
-description = "Library with support for de/serialization, parsing and executing on data structures and network messages related to Elements"
+description = "Library with support for de/serialization, parsing and executing on data structures and network messages related to Ocean"
 license = "CC0-1.0"
-homepage = "https://github.com/ElementsProject/rust-elements/"
-repository = "https://github.com/ElementsProject/rust-elements/"
-documentation = "https://docs.rs/elements/"
+homepage = "https://github.com/commerceblock/rust-ocean/"
+repository = "https://github.com/commerceblock/rust-ocean/"
+documentation = "https://docs.rs/ocean/"
 
 [features]
 "serde-feature" = [
