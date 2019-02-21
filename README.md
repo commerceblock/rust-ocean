@@ -1,9 +1,6 @@
-[![Status](https://travis-ci.org/ElementsProject/rust-elements.png?branch=master)](https://travis-ci.org/ElementsProject/rust-elements)
+[![Status](https://travis-ci.com/commerceblock/rust-ocean.png?branch=master)](https://travis-ci.com/commerceblock/rust-ocean)
 
-# Rust Elements Library
+# Rust Ocean Library
 
 Library with support for de/serialization, parsing and executing on data
-structures and network messages related to Elements
-
-[Documentation](https://docs.rs/elements/)
-
+structures and network messages related to Ocean.

@@ -1,4 +1,4 @@
-// Rust Elements Library
+// Rust Ocean Library
 // Written in 2018 by
 //   Andrew Poelstra <apoelstra@blockstream.com>
 //
@@ -80,7 +80,7 @@ impl<D: Decoder> Decodable<D> for OutPoint {
 
 impl fmt::Display for OutPoint {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("[elements]")?;
+        f.write_str("[ocean]")?;
         write!(f, "{}:{}", self.txid, self.vout)
     }
 }
@@ -248,7 +248,7 @@ impl TxIn {
         );
 
         Some(PeginData {
-            // "Cast" of an elements::OutPoint to a bitcoin::OutPoint
+            // "Cast" of an ocean::OutPoint to a bitcoin::OutPoint
             outpoint: bitcoin::OutPoint {
                 txid: self.previous_output.txid,
                 vout: self.previous_output.vout,
@@ -302,7 +302,7 @@ pub struct PegoutData<'txo> {
     pub genesis_hash: Sha256dHash,
     /// Scriptpubkey to create on the target blockchain
     pub script_pubkey: Script,
-    /// Remaining pegout data used by some forks of Elements
+    /// Remaining pegout data used by some forks of Ocean
     pub extra_data: Vec<&'txo [u8]>,
 }
 
@@ -457,7 +457,7 @@ impl TxOut {
     }
 }
 
-/// Elements transaction
+/// Ocean transaction
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
 pub struct Transaction {
     /// Transaction version field (should always be 2)
@@ -541,7 +541,7 @@ impl Transaction {
             4 + // locktime
             VarInt(self.input.len() as u64).encoded_length() as usize +
             VarInt(self.output.len() as u64).encoded_length() as usize +
-            1 // segwit flag byte (note this is *not* witness data in Elements)
+            1 // segwit flag byte (note this is *not* witness data in Ocean)
         ) + input_weight + output_weight
     }
 
@@ -1484,7 +1484,7 @@ mod tests {
             fdfdfdfdfd3ca059fdf2226a20000000000000000000000000000000000000000\
             0000000000000000000000000\
         ");
-        
+
         assert!(output.is_null_data());
         assert!(!output.is_pegout());
     }
