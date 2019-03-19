@@ -1,4 +1,4 @@
-// Rust Elements Library
+// Rust Ocean Library
 // Written in 2018 by
 //   Andrew Poelstra <apoelstra@blockstream.com>
 //
@@ -213,7 +213,7 @@ impl Asset {
 pub enum Nonce {
     /// No value
     Null,
-    /// There should be no such thing as an "explicit nonce", but Elements will deserialize
+    /// There should be no such thing as an "explicit nonce", but Ocean will deserialize
     /// such a thing (and insists that its size be 32 bytes). So we stick a 32-byte type here
     /// that implements all the traits we need.
     Explicit(sha256d::Hash),

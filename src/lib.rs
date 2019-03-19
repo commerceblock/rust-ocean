@@ -1,4 +1,4 @@
-// Rust Elements Library
+// Rust Ocean Library
 // Written in 2018 by
 //   Andrew Poelstra <apoelstra@blockstream.com>
 //
@@ -12,10 +12,10 @@
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 
-//! # Rust Elements Library
+//! # Rust Ocean Library
 //!
-//! Extensions to `rust-bitcoin` to support deserialization and serialization
-//! of Elements transactions and blocks.
+//! Extensions to `rust-bitcoin` and `rust-elements` to support deserialization
+//! and serialization of Ocean transactions and blocks.
 //!
 
 // Coding conventions
@@ -34,7 +34,7 @@ mod block;
 pub mod confidential;
 mod transaction;
 
-// export everything at the top level so it can be used as `elements::Transaction` etc.
+// export everything at the top level so it can be used as `ocean::Transaction` etc.
 pub use transaction::{OutPoint, PeginData, PegoutData, TxIn, TxOut, TxInWitness, TxOutWitness, Transaction, AssetIssuance};
 pub use block::{BlockHeader, Block, Proof};
 
