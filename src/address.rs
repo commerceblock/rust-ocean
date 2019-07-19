@@ -122,8 +122,8 @@ pub struct AddressParams {
 }
 
 impl AddressParams {
-    /// The Liquid network address parameters.
-    pub const LIQUID: AddressParams = AddressParams {
+    /// The Ocean network address parameters.
+    pub const OCEAN: AddressParams = AddressParams {
         p2pkh_prefix: 57,
         p2sh_prefix: 39,
         blinded_prefix: 12,
@@ -578,7 +578,7 @@ impl FromStr for Address {
 
     fn from_str(s: &str) -> Result<Address, AddressError> {
         // shorthands
-        let liq = &AddressParams::LIQUID;
+        let liq = &AddressParams::OCEAN;
         let ele = &AddressParams::ELEMENTS;
 
         // Bech32.
@@ -709,33 +709,33 @@ mod test {
         let script: Script = vec![1u8, 2, 42, 255, 196].into();
 
         let vectors = [
-            /* #00 */ Address::p2pkh(&pk, None, &AddressParams::LIQUID),
+            /* #00 */ Address::p2pkh(&pk, None, &AddressParams::OCEAN),
             /* #01 */ Address::p2pkh(&pk, None, &AddressParams::ELEMENTS),
-            /* #02 */ Address::p2pkh(&pk, Some(blinder.clone()), &AddressParams::LIQUID),
+            /* #02 */ Address::p2pkh(&pk, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #03 */ Address::p2pkh(&pk, Some(blinder.clone()), &AddressParams::ELEMENTS),
-            /* #04 */ Address::p2sh(&script, None, &AddressParams::LIQUID),
+            /* #04 */ Address::p2sh(&script, None, &AddressParams::OCEAN),
             /* #05 */ Address::p2sh(&script, None, &AddressParams::ELEMENTS),
-            /* #06 */ Address::p2sh(&script, Some(blinder.clone()), &AddressParams::LIQUID),
+            /* #06 */ Address::p2sh(&script, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #07 */
             Address::p2sh(&script, Some(blinder.clone()), &AddressParams::ELEMENTS),
-            /* #08 */ Address::p2wpkh(&pk, None, &AddressParams::LIQUID),
+            /* #08 */ Address::p2wpkh(&pk, None, &AddressParams::OCEAN),
             /* #09 */ Address::p2wpkh(&pk, None, &AddressParams::ELEMENTS),
-            /* #10 */ Address::p2wpkh(&pk, Some(blinder.clone()), &AddressParams::LIQUID),
+            /* #10 */ Address::p2wpkh(&pk, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #11 */ Address::p2wpkh(&pk, Some(blinder.clone()), &AddressParams::ELEMENTS),
-            /* #12 */ Address::p2shwpkh(&pk, None, &AddressParams::LIQUID),
+            /* #12 */ Address::p2shwpkh(&pk, None, &AddressParams::OCEAN),
             /* #13 */ Address::p2shwpkh(&pk, None, &AddressParams::ELEMENTS),
-            /* #14 */ Address::p2shwpkh(&pk, Some(blinder.clone()), &AddressParams::LIQUID),
+            /* #14 */ Address::p2shwpkh(&pk, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #15 */
             Address::p2shwpkh(&pk, Some(blinder.clone()), &AddressParams::ELEMENTS),
-            /* #16 */ Address::p2wsh(&script, None, &AddressParams::LIQUID),
+            /* #16 */ Address::p2wsh(&script, None, &AddressParams::OCEAN),
             /* #17 */ Address::p2wsh(&script, None, &AddressParams::ELEMENTS),
-            /* #18 */ Address::p2wsh(&script, Some(blinder.clone()), &AddressParams::LIQUID),
+            /* #18 */ Address::p2wsh(&script, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #19 */
             Address::p2wsh(&script, Some(blinder.clone()), &AddressParams::ELEMENTS),
-            /* #20 */ Address::p2shwsh(&script, None, &AddressParams::LIQUID),
+            /* #20 */ Address::p2shwsh(&script, None, &AddressParams::OCEAN),
             /* #21 */ Address::p2shwsh(&script, None, &AddressParams::ELEMENTS),
             /* #22 */
-            Address::p2shwsh(&script, Some(blinder.clone()), &AddressParams::LIQUID),
+            Address::p2shwsh(&script, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #23 */
             Address::p2shwsh(&script, Some(blinder.clone()), &AddressParams::ELEMENTS),
         ];
@@ -754,11 +754,11 @@ mod test {
             ("CTEo6VKG8xbe7HnfVW9mQoWTgtgeRSPktwTLbELzGw5tV8Ngzu53EBiasFMQKVbWmKWWTAdN5AUf4M6Y", true, AddressParams::ELEMENTS),
             ("ert1qwhh2n5qypypm0eufahm2pvj8raj9zq5c27cysu", false, AddressParams::ELEMENTS),
             ("el1qq0umk3pez693jrrlxz9ndlkuwne93gdu9g83mhhzuyf46e3mdzfpva0w48gqgzgrklncnm0k5zeyw8my2ypfsmxh4xcjh2rse", true, AddressParams::ELEMENTS),
-            // Liquid
-            ("GqiQRsPEyJLAsEBFB5R34KHuqxDNkG3zur", false, AddressParams::LIQUID),
-            ("VJLDwMVWXg8RKq4mRe3YFNTAEykVN6V8x5MRUKKoC3nfRnbpnZeiG3jygMC6A4Gw967GY5EotJ4Rau2F", true, AddressParams::LIQUID),
-            ("ex1q7gkeyjut0mrxc3j0kjlt7rmcnvsh0gt45d3fud", false, AddressParams::LIQUID),
-            ("lq1qqf8er278e6nyvuwtgf39e6ewvdcnjupn9a86rzpx655y5lhkt0walu3djf9cklkxd3ryld97hu8h3xepw7sh2rlu7q45dcew5", true, AddressParams::LIQUID),
+            // Ocean
+            ("GqiQRsPEyJLAsEBFB5R34KHuqxDNkG3zur", false, AddressParams::OCEAN),
+            ("VJLDwMVWXg8RKq4mRe3YFNTAEykVN6V8x5MRUKKoC3nfRnbpnZeiG3jygMC6A4Gw967GY5EotJ4Rau2F", true, AddressParams::OCEAN),
+            ("ex1q7gkeyjut0mrxc3j0kjlt7rmcnvsh0gt45d3fud", false, AddressParams::OCEAN),
+            ("lq1qqf8er278e6nyvuwtgf39e6ewvdcnjupn9a86rzpx655y5lhkt0walu3djf9cklkxd3ryld97hu8h3xepw7sh2rlu7q45dcew5", true, AddressParams::OCEAN),
         ];
 
         for &(a, blinded, ref params) in &addresses {
