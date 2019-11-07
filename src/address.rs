@@ -124,9 +124,18 @@ pub struct AddressParams {
 impl AddressParams {
     /// The Ocean network address parameters.
     pub const OCEAN: AddressParams = AddressParams {
-        p2pkh_prefix: 57,
-        p2sh_prefix: 39,
-        blinded_prefix: 12,
+        p2pkh_prefix: 0,
+        p2sh_prefix: 5,
+        blinded_prefix: 11,
+        bech_hrp: "ex",
+        blech_hrp: "lq",
+    };
+
+    /// The Gold network address parameters.
+    pub const GOLD: AddressParams = AddressParams {
+        p2pkh_prefix: 38,
+        p2sh_prefix: 97,
+        blinded_prefix: 13,
         bech_hrp: "ex",
         blech_hrp: "lq",
     };
@@ -755,8 +764,8 @@ mod test {
             ("ert1qwhh2n5qypypm0eufahm2pvj8raj9zq5c27cysu", false, AddressParams::ELEMENTS),
             ("el1qq0umk3pez693jrrlxz9ndlkuwne93gdu9g83mhhzuyf46e3mdzfpva0w48gqgzgrklncnm0k5zeyw8my2ypfsmxh4xcjh2rse", true, AddressParams::ELEMENTS),
             // Ocean
-            ("GqiQRsPEyJLAsEBFB5R34KHuqxDNkG3zur", false, AddressParams::OCEAN),
-            ("VJLDwMVWXg8RKq4mRe3YFNTAEykVN6V8x5MRUKKoC3nfRnbpnZeiG3jygMC6A4Gw967GY5EotJ4Rau2F", true, AddressParams::OCEAN),
+            ("1HXfr2qBwT4qGZYn8FczNy68rw5dwG8trc", false, AddressParams::OCEAN),
+            ("Sch4qVB9GZJiQBdZyC3zt2KXhUGBfYCVFV6dkY7h1rVB6BueUQnJj2ouR4hbRw2uo8UwDmAcBinNY3an", true, AddressParams::OCEAN),
             ("ex1q7gkeyjut0mrxc3j0kjlt7rmcnvsh0gt45d3fud", false, AddressParams::OCEAN),
             ("lq1qqf8er278e6nyvuwtgf39e6ewvdcnjupn9a86rzpx655y5lhkt0walu3djf9cklkxd3ryld97hu8h3xepw7sh2rlu7q45dcew5", true, AddressParams::OCEAN),
         ];
