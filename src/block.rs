@@ -18,8 +18,6 @@
 use bitcoin::blockdata::script::Script;
 use bitcoin::BitcoinHash;
 use bitcoin::hashes::{Hash, sha256d};
-#[cfg(feature = "serde")] use serde::{Deserialize, Deserializer, Serialize, Serializer};
-#[cfg(feature = "serde")] use std::fmt;
 
 use Transaction;
 use encode::{Encodable};
