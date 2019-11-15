@@ -17,9 +17,10 @@
 
 use bitcoin::blockdata::script::Script;
 use bitcoin::BitcoinHash;
-use bitcoin_hashes::{Hash, sha256d};
+use bitcoin::hashes::{Hash, sha256d};
 
 use Transaction;
+use encode::{Encodable};
 
 /// Block proof, which replaces PoW with an arbitrary script satisfaction
 #[derive(Clone, Debug, Default, Eq, Hash, PartialEq)]
@@ -81,8 +82,6 @@ impl_consensus_encoding!(
 
 impl BitcoinHash for BlockHeader {
     fn bitcoin_hash(&self) -> sha256d::Hash {
-        use bitcoin::consensus::Encodable;
-
         // Everything except proof.solution goes into the hash
         let mut enc = sha256d::Hash::engine();
         self.version.consensus_encode(&mut enc).unwrap();
@@ -196,4 +195,5 @@ mod tests {
         assert_eq!(block.header.proof.challenge.len(), 1 + 3 * 34 + 2);
         assert_eq!(block.header.proof.solution.len(), 144);
     }
+
 }

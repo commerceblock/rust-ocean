@@ -20,10 +20,11 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
-use std::fmt;
+use std::{io, fmt};
 
-use bitcoin::consensus::{encode, Encodable, Encoder, Decodable, Decoder};
-use bitcoin_hashes::sha256d;
+use bitcoin::hashes::sha256d;
+
+use encode::{self, Encodable, Decodable};
 
 // Helper macro to implement various things for the various confidential
 // commitment types
@@ -54,35 +55,34 @@ macro_rules! impl_confidential_commitment {
             }
         }
 
-        impl<S: Encoder> Encodable<S> for $name {
-            fn consensus_encode(&self, s: &mut S) -> Result<(), encode::Error> {
+        impl Encodable for $name {
+            fn consensus_encode<S: io::Write>(&self, mut s: S) -> Result<usize, encode::Error> {
                 match *self {
                     $name::Null => 0u8.consensus_encode(s),
                     $name::Explicit(n) => {
-                        1u8.consensus_encode(s)?;
+                        1u8.consensus_encode(&mut s)?;
                         // Apply $explicit_fn to allow `Value` to swap the amount bytes
-                        $explicit_fn(n).consensus_encode(s)
+                        Ok(1 + $explicit_fn(n).consensus_encode(&mut s)?)
                     }
                     $name::Confidential(prefix, bytes) => {
-                        prefix.consensus_encode(s)?;
-                        bytes.consensus_encode(s)
+                        Ok(prefix.consensus_encode(&mut s)? + bytes.consensus_encode(&mut s)?)
                     }
                 }
             }
         }
 
-        impl<D: Decoder> Decodable<D> for $name {
-            fn consensus_decode(d: &mut D) -> Result<$name, encode::Error> {
-                let prefix = u8::consensus_decode(d)?;
+        impl Decodable for $name {
+            fn consensus_decode<D: io::Read>(mut d: D) -> Result<$name, encode::Error> {
+                let prefix = u8::consensus_decode(&mut d)?;
                 match prefix {
                     0 => Ok($name::Null),
                     1 => {
                         // Apply $explicit_fn to allow `Value` to swap the amount bytes
-                        let explicit = $explicit_fn(Decodable::consensus_decode(d)?);
+                        let explicit = $explicit_fn(Decodable::consensus_decode(&mut d)?);
                         Ok($name::Explicit(explicit))
                     }
                     x => {
-                        let commitment = <[u8; 32]>::consensus_decode(d)?;
+                        let commitment = <[u8; 32]>::consensus_decode(&mut d)?;
                         Ok($name::Confidential(x, commitment))
                     }
                 }
@@ -229,6 +229,48 @@ impl Nonce {
             Nonce::Null => 1,
             Nonce::Explicit(..) => 33,
             Nonce::Confidential(..) => 33,
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use bitcoin::hashes::Hash;
+    use super::*;
+
+    #[test]
+    fn encode_length() {
+        let vals = [
+            Value::Null,
+            Value::Explicit(1000),
+            Value::Confidential(0x08, [1; 32]),
+        ];
+        for v in &vals[..] {
+            let mut x = vec![];
+            assert_eq!(v.consensus_encode(&mut x).unwrap(), v.encoded_length());
+            assert_eq!(x.len(), v.encoded_length());
+        }
+
+        let nonces = [
+            Nonce::Null,
+            Nonce::Explicit(sha256d::Hash::from_inner([0; 32])),
+            Nonce::Confidential(0x02, [1; 32]),
+        ];
+        for v in &nonces[..] {
+            let mut x = vec![];
+            assert_eq!(v.consensus_encode(&mut x).unwrap(), v.encoded_length());
+            assert_eq!(x.len(), v.encoded_length());
+        }
+
+        let assets = [
+            Asset::Null,
+            Asset::Explicit(sha256d::Hash::from_inner([0; 32])),
+            Asset::Confidential(0x0a, [1; 32]),
+        ];
+        for v in &assets[..] {
+            let mut x = vec![];
+            assert_eq!(v.consensus_encode(&mut x).unwrap(), v.encoded_length());
+            assert_eq!(x.len(), v.encoded_length());
         }
     }
 }
