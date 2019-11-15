@@ -1,6 +1,6 @@
 [package]
 name = "rust-ocean"
-version = "0.6.0"
+version = "0.10.0"
 authors = ["Andrew Poelstra <apoelstra@blockstream.com>", "Nikolaos Kostoulas <nikolaos@commerceblock.com"]
 description = "Library with support for de/serialization, parsing and executing on data structures and network messages related to Ocean"
 license = "CC0-1.0"
@@ -9,19 +9,13 @@ repository = "https://github.com/commerceblock/rust-ocean/"
 
 [features]
 "serde-feature" = [
-    "bitcoin/serde",
-    "bitcoin_hashes/serde",
+    "bitcoin/use-serde",
     "serde"
 ]
 "fuzztarget" = []
 
 [dependencies]
-bech32 = "0.6"
-bitcoin_hashes = "0.3.0"
-secp256k1 = "0.12.0"
-
-[dependencies.bitcoin]
-version = "0.18.0"
+bitcoin = "0.20"
 
 [dependencies.serde]
 version = "1.0"
