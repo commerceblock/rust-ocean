@@ -6,7 +6,7 @@ fn do_test(data: &[u8]) {
     match block_result {
         Err(_) => {},
         Ok(block) => {
-            let reser = elements::encode::serialize(&block);
+            let reser = rust_ocean::encode::serialize(&block);
             assert_eq!(data, &reser[..]);
         },
     }

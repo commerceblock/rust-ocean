@@ -2,11 +2,11 @@
 extern crate rust_ocean;
 
 fn do_test(data: &[u8]) {
-    let tx_result: Result<rust_ocean::Transaction, _> = elements::encode::deserialize(data);
+    let tx_result: Result<rust_ocean::Transaction, _> = rust_ocean::encode::deserialize(data);
     match tx_result {
         Err(_) => {},
         Ok(mut tx) => {
-            let reser = elements::encode::serialize(&tx);
+            let reser = rust_ocean::encode::serialize(&tx);
             assert_eq!(data, &reser[..]);
             let len = reser.len();
             let calculated_weight = tx.get_weight();
@@ -17,7 +17,7 @@ fn do_test(data: &[u8]) {
                 output.witness = rust_ocean::TxOutWitness::default();
             }
             assert_eq!(tx.has_witness(), false);
-            let no_witness_len = elements::encode::serialize(&tx).len();
+            let no_witness_len = rust_ocean::encode::serialize(&tx).len();
             assert_eq!(no_witness_len * 3 + len, calculated_weight);
 
             for output in &tx.output {
