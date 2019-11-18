@@ -17,9 +17,9 @@
 
 use std::{io, fmt};
 
-use bitcoin::{self, BitcoinHash, VarInt};
+use bitcoin::{self, BitcoinHash, VarInt, Script};
 use bitcoin::blockdata::opcodes;
-use bitcoin::blockdata::script::{Script, Instruction};
+use bitcoin::blockdata::script::Instruction;
 use bitcoin::hashes::{Hash, sha256d};
 
 use confidential;
