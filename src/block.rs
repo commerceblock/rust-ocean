@@ -15,7 +15,7 @@
 //! # Blocks
 //!
 
-use bitcoin::blockdata::script::Script;
+use bitcoin::Script;
 use bitcoin::BitcoinHash;
 use bitcoin::hashes::{Hash, sha256d};
 
