@@ -136,8 +136,8 @@ impl AddressParams {
         p2pkh_prefix: 38,
         p2sh_prefix: 97,
         blinded_prefix: 13,
-        bech_hrp: "ex",
-        blech_hrp: "lq",
+        bech_hrp: "dg",
+        blech_hrp: "ld",
     };
 
     /// The default Elements network address parameters.
@@ -578,6 +578,7 @@ impl FromStr for Address {
         // shorthands
         let liq = &AddressParams::OCEAN;
         let ele = &AddressParams::ELEMENTS;
+        let gld = &AddressParams::GOLD;
 
         // Bech32.
         let prefix = find_prefix(s);
@@ -592,6 +593,12 @@ impl FromStr for Address {
         }
         if match_prefix(prefix, ele.blech_hrp) {
             return Address::from_bech32(s, true, ele);
+        }
+        if match_prefix(prefix, gld.bech_hrp) {
+            return Address::from_bech32(s, false, gld);
+        }
+        if match_prefix(prefix, gld.blech_hrp) {
+            return Address::from_bech32(s, true, gld);
         }
 
         // Base58.
@@ -609,6 +616,9 @@ impl FromStr for Address {
         }
         if p == ele.p2pkh_prefix || p == ele.p2sh_prefix || p == ele.blinded_prefix {
             return Address::from_base58(&data, ele);
+        }
+        if p == gld.p2pkh_prefix || p == gld.p2sh_prefix || p == gld.blinded_prefix {
+            return Address::from_base58(&data, gld);
         }
 
         Err(AddressError::InvalidAddress(s.to_owned()))
@@ -736,6 +746,10 @@ mod test {
             Address::p2shwsh(&script, Some(blinder.clone()), &AddressParams::OCEAN),
             /* #23 */
             Address::p2shwsh(&script, Some(blinder.clone()), &AddressParams::ELEMENTS),
+            /* #24 */ Address::p2pkh(&pk, None, &AddressParams::GOLD),
+            /* #25 */ Address::p2sh(&script, None, &AddressParams::GOLD),
+            /* #26 */ Address::p2wpkh(&pk, None, &AddressParams::GOLD),
+            /* #27 */ Address::p2wsh(&script, None, &AddressParams::GOLD),
         ];
 
         for addr in &vectors {
@@ -757,6 +771,9 @@ mod test {
             ("Sch4qVB9GZJiQBdZyC3zt2KXhUGBfYCVFV6dkY7h1rVB6BueUQnJj2ouR4hbRw2uo8UwDmAcBinNY3an", true, AddressParams::OCEAN),
             ("ex1q7gkeyjut0mrxc3j0kjlt7rmcnvsh0gt45d3fud", false, AddressParams::OCEAN),
             ("lq1qqf8er278e6nyvuwtgf39e6ewvdcnjupn9a86rzpx655y5lhkt0walu3djf9cklkxd3ryld97hu8h3xepw7sh2rlu7q45dcew5", true, AddressParams::OCEAN),
+            // Gold
+            ("GJmgtWBzg329g1zQ7L9GkzLQiLgEfPkiHo", false, AddressParams::GOLD),
+            ("gBw3kaH65KQbqq7KoYzhNmrRNy5v1T3oq7", false, AddressParams::GOLD),
         ];
 
         for &(a, blinded, ref params) in &addresses {
